@@ -21,8 +21,6 @@ import com.google.zxing.qrcode.encoder.ByteMatrix;
 import com.google.zxing.qrcode.encoder.Encoder;
 import com.google.zxing.qrcode.encoder.QRCode;
 
-import javafx.print.Printer.MarginType;
-
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.NotFoundException;
@@ -99,7 +97,7 @@ public class Generator {
         return bi.getScaledInstance(1, 1, 0);
     }
 
-    public File generateCode(String url, File outputFile, int dimension)
+    public File generateCode(String inputStr, File outputFile, int dimension)
         throws WriterException, IOException {
         
         Map<EncodeHintType, Object> hints
@@ -110,18 +108,17 @@ public class Generator {
         
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = writer.encode(
-            url, BarcodeFormat.QR_CODE, dimension, dimension, hints
+        		inputStr, BarcodeFormat.QR_CODE, dimension, dimension, hints
         );
 
         String filePathStr = outputFile.getPath();
         Path filePath = FileSystems.getDefault().getPath(filePathStr);
         MatrixToImageWriter.writeToPath(matrix, "png", filePath);
-        
 
         return outputFile;
     }
 
-    public File generateCode(String url, String filename, int dimension)
+    public File generateCode(String inputStr, String filename, int dimension)
         throws WriterException, IOException {
         // BitMatrix matrix = new MultiFormatWriter().encode(
         //     new String(url.getBytes("ASCII"), "ASCII"),
@@ -132,7 +129,13 @@ public class Generator {
         // Path filePath = FileSystems.getDefault().getPath(filePathStr);
         // MatrixToImageWriter.writeToPath(matrix, "png", filePath);
 
-        return generateCode(url, file, dimension);
+        return generateCode(inputStr, file, dimension);
+    }
+    
+    public File generateCode(String inputStr, int dimension) throws WriterException, IOException {
+    	File file = File.createTempFile("qrcode-generator_", ".png");
+    	
+    	return generateCode(inputStr, file, dimension);
     }
 
     public File generateCodeWithLogo(
