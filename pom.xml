@@ -6,10 +6,9 @@
 
   <groupId>com.github.abhinavgunwant</groupId>
   <artifactId>qrcode-generator</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1</version>
 
   <name>qrcode-generator</name>
-  <!-- FIXME change it to the project's website -->
   <url>http://github.com/abhinavgunwant/qrcode-generator</url>
 
   <properties>
@@ -88,7 +87,51 @@
             <commandlineArgs></commandlineArgs>
           </configuration>
         </plugin>
+        <!--<plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-jar-plugin</artifactId>
+	      <version>3.2.2</version>
+	      <configuration>
+	        <archive>
+	          <manifest>
+	            <addClasspath>true</addClasspath>
+	            <classpathPrefix>lib/</classpathPrefix>
+	            <mainClass>com.github.abhinavgunwant.qr.App</mainClass>
+	          </manifest>
+	        </archive>
+	      </configuration>
+	    </plugin>-->
+	    
+	    <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-assembly-plugin</artifactId>
+        	<version>3.3.0</version>
+	        <configuration>
+	            <descriptorRefs>
+	                <descriptorRef>jar-with-dependencies</descriptorRef>
+	            </descriptorRefs>
+	            <archive>
+                <manifest>
+                    <mainClass>com.github.abhinavgunwant.qr.App</mainClass>
+                </manifest>
+	            </archive>
+	        </configuration>
+	        <executions>
+	            <execution>
+	                <phase>package</phase>
+	                <goals>
+	                    <goal>single</goal>
+	                </goals>
+	            </execution>
+	        </executions>
+	    </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+    	<plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-assembly-plugin</artifactId>
+    	</plugin>
+    </plugins>
   </build>
 </project>

@@ -37,19 +37,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 public class Generator {
     private static final String MINI_LOGO_NAME = "micro-logo.png";
 
-    private static Generator instance = null;
-
-    private Generator () {}
-
-    public static Generator getInstance() {
-        if (instance == null) {
-            instance = new Generator();
-        }
-
-        return instance;
-    }
-
-    private int dotWidth(BufferedImage bi) {
+    private static int dotWidth(BufferedImage bi) {
         for(int i=0; i<bi.getWidth(); ++i) {
             if ((bi.getRGB(i, i) & 0x00ffffff) == 0) {
 
@@ -65,7 +53,7 @@ public class Generator {
         return -1;
     }
 
-    private Image resizedQRCode(BufferedImage bi) {
+    private static Image resizedQRCode(BufferedImage bi) {
         boolean tl = false; // scan from top-left done or not
         boolean br = false; // scan from bottom-right done or not
 
@@ -97,14 +85,36 @@ public class Generator {
         return bi.getScaledInstance(1, 1, 0);
     }
 
-    public File generateCode(String inputStr, File outputFile, int dimension)
-        throws WriterException, IOException {
+    public static File generateCode(
+    		String inputStr, File outputFile, int dimension, String errCorrStr
+		) throws WriterException, IOException {
+    	
+//    	int errorCorrection;
         
         Map<EncodeHintType, Object> hints
             = new HashMap<EncodeHintType, Object>();
 
         hints.put(EncodeHintType.MARGIN, 0);
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+        
+        switch (errCorrStr) {
+    	case "Q":
+//    		errorCorrection = ErrorCorrectionLevel.Q.getBits();
+    		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.Q);
+    		break;
+    	case "M":
+//			errorCorrection = ErrorCorrectionLevel.M.getBits();
+    		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+			break;
+    	case "H":
+//			errorCorrection = ErrorCorrectionLevel.H.getBits();
+    		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+			break;
+		default:
+//    		errorCorrection = ErrorCorrectionLevel.L.getBits();
+    		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+        }
+        
+//        hints.put(EncodeHintType.ERROR_CORRECTION, errorCorrection);
         
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = writer.encode(
@@ -118,33 +128,28 @@ public class Generator {
         return outputFile;
     }
 
-    public File generateCode(String inputStr, String filename, int dimension)
+    public static File generateCode(String inputStr, String filename, int dimension, String errCorrStr)
         throws WriterException, IOException {
-        // BitMatrix matrix = new MultiFormatWriter().encode(
-        //     new String(url.getBytes("ASCII"), "ASCII"),
-        //     BarcodeFormat.QR_CODE, dimension, dimension);
 
         File file = new File(".\\" + filename);
-        // String filePathStr = file.getPath();
-        // Path filePath = FileSystems.getDefault().getPath(filePathStr);
-        // MatrixToImageWriter.writeToPath(matrix, "png", filePath);
 
-        return generateCode(inputStr, file, dimension);
+        return generateCode(inputStr, file, dimension, errCorrStr);
     }
     
-    public File generateCode(String inputStr, int dimension) throws WriterException, IOException {
+    public static File generateCode(String inputStr, int dimension, String errCorrStr)
+		throws WriterException, IOException {
     	File file = File.createTempFile("qrcode-generator_", ".png");
     	
-    	return generateCode(inputStr, file, dimension);
+    	return generateCode(inputStr, file, dimension, errCorrStr);
     }
 
-    public File generateCodeWithLogo(
-            String url, String filename, int dimension
+    public static File generateCodeWithLogo(
+            String url, String filename, int dimension, String errCorrStr
         ) throws WriterException, IOException {
         
         File qrcodeFile = File.createTempFile("dfgh", ".png");
 
-        generateCode(url, qrcodeFile, dimension);
+        generateCode(url, qrcodeFile, dimension, errCorrStr);
 
         BufferedImage img = ImageIO.read(qrcodeFile);
 
@@ -157,7 +162,7 @@ public class Generator {
         int miniLogoBorderWidth = miniLogoWidth/8;
 
         Image miniLogo = ImageIO.read(
-            getClass().getClassLoader().getResource(MINI_LOGO_NAME)
+    		Generator.class.getClassLoader().getResource(MINI_LOGO_NAME)
         ).getScaledInstance(miniLogoWidth, miniLogoHeight, Image.SCALE_SMOOTH);
 
         BufferedImage output = new BufferedImage(

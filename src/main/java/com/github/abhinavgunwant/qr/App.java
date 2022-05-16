@@ -10,8 +10,6 @@ import com.google.zxing.WriterException;
  * Main Class!
  */
 public class App {
-    private static Generator g = Generator.getInstance();
-
     private static void cli() {
         Scanner s = new Scanner(System.in);
 
@@ -27,17 +25,17 @@ public class App {
         System.out.println("Generating qr code...");
 
         try {
-            g.generateCodeWithLogo(text, filename, 200);
+        	Generator.generateCodeWithLogo(text, filename, 200, "H");
         } catch (WriterException e) { e.printStackTrace(); }
         catch (IOException e) { e.printStackTrace(); }
     }
 
     public static void main( String[] args ) {
-        if (args.length > 0 && args[0].matches("-c")) {
-            cli();
-        } else {
+//        if (args.length > 0 && args[0].matches("-c")) {
+//            cli();
+//        } else {
             MainWindow mw = new MainWindow();
             mw.show();
-        }
+//        }
     }
 }
