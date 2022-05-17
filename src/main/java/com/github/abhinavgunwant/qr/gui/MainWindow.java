@@ -271,7 +271,7 @@ public class MainWindow {
     }
     
     private void generateQRCode() {
-    	if (inputTextArea.getText().isBlank()) {
+    	if (inputTextArea.getText().isEmpty()) {
     		setInitialQR();
     		return;
     	}
