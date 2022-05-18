@@ -31,6 +31,7 @@ public class App {
     }
 
     public static void main( String[] args ) {
+    	// TODO: Enable cli for later releases...
 //        if (args.length > 0 && args[0].matches("-c")) {
 //            cli();
 //        } else {

@@ -27,3 +27,25 @@ To create an executable jar, just execute:
 ```bash
 mvn package
 ```
+
+## Creating installer
+
+This project uses [jpackage](https://docs.oracle.com/en/java/javase/14/jpackage/packaging-overview.html#GUID-C1027043-587D-418D-8188-EF8F44A4C06A)
+to create installers.
+
+To create one yourself, build the project using the package command above, and
+run the following commands based on the target operating system (**Note:**
+These commands should also run on the target platform):
+
+### Windows
+```ps
+jpackage --name qrcode-generator --input .\target --main-jar qrcode-generator-<version>-jar-with-dependencies.jar --app-version <version> --license-file .\LICENSE --win-shortcut --win-dir-chooser --icon .\src\main\resources\icon.ico --vendor "<your-name>"
+```
+
+### Linux
+```bash
+jpackage --name qrcode-generator --input ./target \
+    --main-jar qrcode-generator-<version>-jar-with-dependencies.jar \
+    --app-version <version> --license-file ./LICENSE \
+    --icon .\src\main\resources\icon.ico --vendor "<your-name>"
+```

@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import com.github.abhinavgunwant.qr.Consts;
 
 public class Panel extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	public Panel() {
 		setupUI();
 	}

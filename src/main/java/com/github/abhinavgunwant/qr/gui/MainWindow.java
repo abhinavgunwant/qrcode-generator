@@ -85,6 +85,9 @@ public class MainWindow {
         setupUI();
     }
 
+    /**
+     * Gets the QR preview image to say "Start typing in input field"
+     */
     private void setInitialQR() {
     	BufferedImage qrCodeBufferedImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
         String initialString = "Start typing in input field";
@@ -120,6 +123,9 @@ public class MainWindow {
         mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         mainFrame.setLayout(new GridLayout());
         mainFrame.setBackground(Consts.FRAME_BACKGROUND);
+        mainFrame.setIconImage(
+        		(new ImageIcon(getClass().getResource("/icon.ico"))).getImage()
+        );
 
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -164,46 +170,7 @@ public class MainWindow {
         					+ " something in input<br />field before"
         					+ " attempting to save.</center></html>");
         			errDiag.setVisible(true);
-//        			JDialog dialog = new JDialog(mainFrame, "Error", true);
-//        			Panel dialogPanel = new Panel();
-//        			Panel textPanel = new Panel();
-//        			Panel buttonPanel = new Panel();
-//        			
-//        			JButton closeButton = new JButton("Close");
-//        			JLabel text = new JLabel("<html><center>No QR code"
-//        					+ " generated yet.<br />Please start typing"
-//        					+ " something in input<br />field before"
-//        					+ " attempting to save.</center></html>");
-//
-//        			dialog.setSize(new Dimension(300, 150));
-//        			dialog.setBackground(Consts.FRAME_BACKGROUND);
-//        			
-//        			dialogPanel.setLayout(new BoxLayout(dialogPanel, BoxLayout.Y_AXIS));
-//        			textPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-//        			buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-//        			
-//        			closeButton.setBackground(Consts.BUTTON_BACKGROUND);
-//        			closeButton.setForeground(Color.WHITE);
-//        			closeButton.setBorder(new LineBorder(Consts.BUTTON_BORDER));
-//        			closeButton.setMinimumSize(new Dimension(100, 25));
-//        			closeButton.addActionListener(new ActionListener() {
-//        				@Override
-//        				public void actionPerformed(ActionEvent e) {
-//        					dialog.setVisible(false);
-//        				}
-//        			});
-//        			
-//        			text.setForeground(Color.WHITE);
-//        			
-//        			textPanel.add(text);
-//        			buttonPanel.add(closeButton);
-//        			
-//        			dialogPanel.add(textPanel);
-//        			dialogPanel.add(buttonPanel);
-//        			
-//        			dialog.add(dialogPanel);
-//        			dialog.setVisible(true);
-//        			
+        			
         			return;
         		}
         		
@@ -216,6 +183,14 @@ public class MainWindow {
         		
         		if (option == JFileChooser.APPROVE_OPTION) {
         			File targetFile = fc.getSelectedFile();
+//        			File temp = null;
+        			
+        			String filename = targetFile.getAbsolutePath();
+        			
+        			if (!filename.endsWith(".png")) {
+//        				temp = targetFile;
+        				targetFile = new File(filename + ".png");
+        			}
         			
         			try (
     					FileInputStream fis = new FileInputStream(currentQRCodeFile);
@@ -227,6 +202,10 @@ public class MainWindow {
         				while ((byteIndex = fis.read(bytes)) != -1) {
         					fos.write(bytes, 0, byteIndex);
         				}
+        				
+//        				if (temp != null) {
+//        					temp.delete();
+//        				}
         			} catch (IOException e1) {
 						e1.printStackTrace();
 					}

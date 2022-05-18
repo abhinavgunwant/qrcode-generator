@@ -20,6 +20,7 @@ import com.github.abhinavgunwant.qr.Consts;
  * @author abhinavgunwant
  */
 public class IconButton extends JButton {
+	private static final long serialVersionUID = 1L;
 	Icons icon = null;
 
 	public IconButton() {

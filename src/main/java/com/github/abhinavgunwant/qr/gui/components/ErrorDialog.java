@@ -1,14 +1,9 @@
 package com.github.abhinavgunwant.qr.gui.components;
 
 import java.awt.Color;
-//import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-//import java.awt.GraphicsConfiguration;
-//import java.awt.Window;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -24,6 +19,7 @@ import com.github.abhinavgunwant.qr.Consts;
  * @author abhinavgunwant
  */
 public class ErrorDialog extends JDialog {
+	private static final long serialVersionUID = 1L;
 	private Panel dialogPanel;
 	private Panel textPanel;
 	private Panel buttonPanel;
@@ -51,66 +47,6 @@ public class ErrorDialog extends JDialog {
 		
 		setupUI();
 	}
-
-//	public ErrorDialog(Frame owner) {
-//		super(owner);
-//	}
-//
-//	public ErrorDialog(Dialog owner) {
-//		super(owner);
-//	}
-//
-//	public ErrorDialog(Window owner) {
-//		super(owner);
-//	}
-//
-//	public ErrorDialog(Frame owner, boolean modal) {
-//		super(owner, modal);
-//	}
-//
-//	public ErrorDialog(Frame owner, String title) {
-//		super(owner, title);
-//	}
-//
-//	public ErrorDialog(Dialog owner, boolean modal) {
-//		super(owner, modal);
-//	}
-//
-//	public ErrorDialog(Dialog owner, String title) {
-//		super(owner, title);
-//	}
-//
-//	public ErrorDialog(Window owner, ModalityType modalityType) {
-//		super(owner, modalityType);
-//	}
-//
-//	public ErrorDialog(Window owner, String title) {
-//		super(owner, title);
-//	}
-//
-//	public ErrorDialog(Frame owner, String title, boolean modal) {
-//		super(owner, title, modal);
-//	}
-//
-//	public ErrorDialog(Dialog owner, String title, boolean modal) {
-//		super(owner, title, modal);
-//	}
-//
-//	public ErrorDialog(Window owner, String title, ModalityType modalityType) {
-//		super(owner, title, modalityType);
-//	}
-//
-//	public ErrorDialog(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
-//		super(owner, title, modal, gc);
-//	}
-//
-//	public ErrorDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) {
-//		super(owner, title, modal, gc);
-//	}
-//
-//	public ErrorDialog(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc) {
-//		super(owner, title, modalityType, gc);
-//	}
 
 	private void setupUI() {
 		setSize(new Dimension(300, 150));
